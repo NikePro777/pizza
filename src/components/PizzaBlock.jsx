@@ -1,32 +1,52 @@
 import React from 'react';
 
-const PizzaBlock = ({ title, price }) => {
+const PizzaBlock = ({ title, price, imageUrl, types, sizes }) => {
   const [pizzaCount, setPizzaCaunt] = React.useState(0);
-  const addCount = () => {
-    setPizzaCaunt(pizzaCount + 1);
-  };
+  const selector = ['тонкое', 'традиционное'];
+  const [sizesMap, setSizesMap] = React.useState(0);
+  const [typesActive, setTypesActive] = React.useState(0);
+
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-        alt="Pizza"
-      />
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">тонкое</li>
-          <li>традиционное</li>
+          {types.map((s, i) => {
+            return (
+              <li
+                onClick={() => {
+                  setSizesMap(i);
+                }}
+                className={sizesMap === i ? 'active' : ''}
+                key={i}>
+                {selector[i]}
+              </li>
+            );
+          })}
         </ul>
         <ul>
-          <li className="active">26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {sizes.map((s, i) => {
+            return (
+              <li
+                onClick={() => {
+                  setTypesActive(i);
+                }}
+                className={typesActive === i ? 'active' : ''}
+                key={i}>
+                {s}
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <button onClick={addCount} className="button button--outline button--add">
+        <button
+          onClick={() => {
+            setPizzaCaunt(pizzaCount + 1);
+          }}
+          className="button button--outline button--add">
           <svg
             width="12"
             height="12"
