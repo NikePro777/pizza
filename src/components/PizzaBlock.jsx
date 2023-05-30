@@ -1,10 +1,10 @@
 import React from 'react';
 
 const PizzaBlock = ({ title, price }) => {
-  let [pizzaCount, setPizzaCaunt] = React.useState(0);
-  function addCount() {
-    setPizzaCaunt((pizzaCount += 1));
-  }
+  const [pizzaCount, setPizzaCaunt] = React.useState(0);
+  const addCount = () => {
+    setPizzaCaunt(pizzaCount + 1);
+  };
   return (
     <div className="pizza-block">
       <img
