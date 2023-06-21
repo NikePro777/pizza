@@ -8,6 +8,10 @@ const Sort = () => {
     setSortStatus(index);
     setOpen(false);
   }
+  // const selected = (index) => {
+  //   setSortStatus(index);
+  //   setOpen(false);
+  // };
   return (
     <div className="sort">
       <div className="sort__label">
