@@ -10,10 +10,14 @@ import Skeleton from './components/PizzaBlock/Skeleton';
 
 function App() {
   const [pizzas, setPizzas] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     fetch('https://649429cc0da866a95367498d.mockapi.io/pizzas')
       .then((res) => res.json())
-      .then((json) => setPizzas(json));
+      .then((json) => {
+        setPizzas(json);
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -27,13 +31,13 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            {/* {pizzas.map((pizza, i) => {
-              return <PizzaBlock {...pizza} key={i} />;
-            })} */}
-
-            {[...new Array(6)].map((_, i) => {
-              return <Skeleton key={i} />;
-            })}
+            {loading
+              ? [...new Array(6)].map((_, i) => {
+                  return <Skeleton key={i} />;
+                })
+              : pizzas.map((pizza, i) => {
+                  return <PizzaBlock {...pizza} key={i} />;
+                })}
           </div>
         </div>
       </div>
