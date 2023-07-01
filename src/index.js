@@ -4,11 +4,21 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './scss/app.scss';
 
 import Layout from './routes/layout';
+import ErrorPage from './routes/error-page';
+
+import Categories from './components/Categories';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: 'piz',
+        element: <Categories />,
+      },
+    ],
   },
 ]);
 
