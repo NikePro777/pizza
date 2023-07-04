@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PizzaBlock from '../components/PizzaBlock/';
+import PizzaBlock from '../components/PizzaBlock';
 import Sort from '../components/Sort';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Categories from '../components/Categories';
