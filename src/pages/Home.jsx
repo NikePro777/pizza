@@ -8,8 +8,12 @@ import Categories from '../components/Categories';
 const Home = () => {
   const [pizzas, setPizzas] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const sortBy = document.getElementsByClassName('sort__label')[0].lastChild.textContent;
+  console.log(sortBy);
+  const url = new URL('https://649429cc0da866a95367498d.mockapi.io/pizzas');
+  url.searchParams.append('sortBy', { sortBy });
   React.useEffect(() => {
-    fetch('https://649429cc0da866a95367498d.mockapi.io/pizzas')
+    fetch(url)
       .then((res) => res.json())
       .then((json) => {
         setPizzas(json);
