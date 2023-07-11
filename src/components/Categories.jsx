@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Categories = ({ activeCategory, selectCategory }) => {
-  console.log('activeCategory', activeCategory);
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
   return (
     <div className="categories">

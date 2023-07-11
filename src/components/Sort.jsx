@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Sort = () => {
+const Sort = ({ setSortStatus, sortStatus }) => {
   const sort = ['популярности', 'цене', 'алфавиту'];
-  const [sortStatus, setSortStatus] = React.useState(0);
+
   const [open, setOpen] = React.useState(false);
   function selected(index) {
     setSortStatus(index);

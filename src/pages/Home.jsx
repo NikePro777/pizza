@@ -8,29 +8,56 @@ import Categories from '../components/Categories';
 const Home = () => {
   const [pizzas, setPizzas] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
-  // const sortBy = document.getElementsByClassName('sort__label')[0].lastChild.textContent;
-  // console.log(sortBy);
-  // const url = new URL('https://649429cc0da866a95367498d.mockapi.io/pizzas');
-  // url.searchParams.append('sortBy', { sortBy });
-  React.useEffect(() => {
-    fetch('https://649429cc0da866a95367498d.mockapi.io/pizzas')
+
+  let [sortStatus, setSortStatus] = React.useState(0);
+  setSortStatus = (sortId) => {
+    sortStatus = sortId;
+    setUrl({ sortId });
+  };
+
+  let [url, setUrl] = React.useState('https://649429cc0da866a95367498d.mockapi.io/pizzas');
+
+  setUrl = (sortStatus, activeCategory) => {
+    console.log('sortStatus', sortStatus, 'activeCategory', activeCategory);
+    url = new URL('https://649429cc0da866a95367498d.mockapi.io/pizzas');
+    url.searchParams.append('category', sortStatus);
+    fetch(url, {
+      method: 'GET',
+      // headers: { 'content-type': 'application/json' },
+    })
       .then((res) => res.json())
       .then((json) => {
         setPizzas(json);
+        // console.log(pizzas);
         setLoading(false);
       });
-  }, []);
+    // return url;
+  };
+
+  React.useEffect(() => {
+    fetch(url, {
+      method: 'GET',
+      // headers: { 'content-type': 'application/json' },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        setPizzas(json);
+        // console.log(pizzas);
+        setLoading(false);
+      });
+  }, [url]);
 
   const [activeCategory, setActiveCategory] = React.useState(0);
   function setSelectCategory(select) {
     setActiveCategory(select);
+    setUrl(activeCategory);
   }
-  console.log(activeCategory);
+
   return (
     <>
       <div className="content__top">
         <Categories activeCategory={activeCategory} selectCategory={setSelectCategory} />
-        <Sort />
+        <Sort setSortStatus={setSortStatus} sortStatus={sortStatus} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
