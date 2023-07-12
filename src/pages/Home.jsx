@@ -9,32 +9,61 @@ const Home = () => {
   const [pizzas, setPizzas] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
+  let [url, setUrl] = React.useState(new URL('https://649429cc0da866a95367498d.mockapi.io/pizzas'));
+
+  const editUrl = function (activeCategory, sortStatus) {
+    console.log('activeCategory', activeCategory, 'sortStatus', sortStatus);
+    let url = new URL('https://649429cc0da866a95367498d.mockapi.io/pizzas');
+    url.searchParams.append('category', activeCategory);
+    // fetch(url, {
+    //   method: 'GET',
+    //   // headers: { 'content-type': 'application/json' },
+    // })
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     setPizzas(json);
+    //     console.log(pizzas);
+    //     setLoading(false);
+    //   });
+    console.log(url);
+    setUrl(url);
+  };
+
+  // setUrl = (activeCategory, sortStatus) => {
+  //   console.log('activeCategory', activeCategory, 'sortStatus', sortStatus);
+  //   let nurl = new URL('https://649429cc0da866a95367498d.mockapi.io/pizzas');
+  //   nurl.searchParams.append('category', activeCategory);
+  //   // fetch(url, {
+  //   //   method: 'GET',
+  //   //   // headers: { 'content-type': 'application/json' },
+  //   // })
+  //   //   .then((res) => res.json())
+  //   //   .then((json) => {
+  //   //     setPizzas(json);
+  //   //     console.log(pizzas);
+  //   //     setLoading(false);
+  //   //   });
+  //   console.log(nurl);
+  //   return nurl;
+  // };
+
+  // category
+  const [activeCategory, setActiveCategory] = React.useState(0);
+  function setSelectCategory(select) {
+    setActiveCategory(select);
+    editUrl(activeCategory, sortStatus);
+  }
+
+  //sort
   let [sortStatus, setSortStatus] = React.useState(0);
-  setSortStatus = (sortId) => {
-    sortStatus = sortId;
-    setUrl({ sortId });
+  const setStatus = (sortId) => {
+    setSortStatus(sortId);
+    editUrl(activeCategory, sortStatus);
   };
 
-  let [url, setUrl] = React.useState('https://649429cc0da866a95367498d.mockapi.io/pizzas');
-
-  setUrl = (sortStatus, activeCategory) => {
-    console.log('sortStatus', sortStatus, 'activeCategory', activeCategory);
-    url = new URL('https://649429cc0da866a95367498d.mockapi.io/pizzas');
-    url.searchParams.append('category', sortStatus);
-    fetch(url, {
-      method: 'GET',
-      // headers: { 'content-type': 'application/json' },
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        setPizzas(json);
-        // console.log(pizzas);
-        setLoading(false);
-      });
-    // return url;
-  };
-
+  //url
   React.useEffect(() => {
+    console.log('работает?!');
     fetch(url, {
       method: 'GET',
       // headers: { 'content-type': 'application/json' },
@@ -47,17 +76,11 @@ const Home = () => {
       });
   }, [url]);
 
-  const [activeCategory, setActiveCategory] = React.useState(0);
-  function setSelectCategory(select) {
-    setActiveCategory(select);
-    setUrl(activeCategory);
-  }
-
   return (
     <>
       <div className="content__top">
         <Categories activeCategory={activeCategory} selectCategory={setSelectCategory} />
-        <Sort setSortStatus={setSortStatus} sortStatus={sortStatus} />
+        <Sort setSortStatus={setStatus} sortStatus={sortStatus} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
