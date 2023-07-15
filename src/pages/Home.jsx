@@ -14,18 +14,16 @@ const Home = () => {
   const editUrl = function (activeCategory, sortStatus) {
     console.log('activeCategory', activeCategory, 'sortStatus', sortStatus);
     let url = new URL('https://649429cc0da866a95367498d.mockapi.io/pizzas');
-    url.searchParams.append('category', activeCategory);
-    // fetch(url, {
-    //   method: 'GET',
-    //   // headers: { 'content-type': 'application/json' },
-    // })
-    //   .then((res) => res.json())
-    //   .then((json) => {
-    //     setPizzas(json);
-    //     console.log(pizzas);
-    //     setLoading(false);
-    //   });
-    console.log(url);
+    activeCategory && url.searchParams.append('category', activeCategory);
+
+    if (sortStatus) {
+      sortStatus === 1
+        ? url.searchParams.append('sortBy', 'price')
+        : url.searchParams.append('sortBy', 'title');
+    } else {
+      url.searchParams.append('sortBy', 'rating');
+      url.searchParams.append('order', 'desc');
+    }
     setUrl(url);
   };
 
@@ -50,12 +48,14 @@ const Home = () => {
   // category
   const [activeCategory, setActiveCategory] = React.useState(0);
   function setSelectCategory(select) {
+    console.log(activeCategory);
     setActiveCategory(select);
     editUrl(activeCategory, sortStatus);
+    console.log(activeCategory);
   }
 
   //sort
-  let [sortStatus, setSortStatus] = React.useState(0);
+  const [sortStatus, setSortStatus] = React.useState(0);
   const setStatus = (sortId) => {
     setSortStatus(sortId);
     editUrl(activeCategory, sortStatus);
@@ -63,7 +63,6 @@ const Home = () => {
 
   //url
   React.useEffect(() => {
-    console.log('работает?!');
     fetch(url, {
       method: 'GET',
       // headers: { 'content-type': 'application/json' },
